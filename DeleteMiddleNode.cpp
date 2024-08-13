@@ -47,14 +47,9 @@ int deletemiddle(struct node *first)
         prev = slow;
         slow = slow->link;
     }
-    prev->link=prev->link->link; 
-    // // At this point, slow is at the middle node
-    // // prev is the node before the middle node
-    // if (prev != NULL)
-    // {
-    //     prev->link = slow->link; // Remove the middle node from the list
-    //     delete slow;             // Free memory of middle node
-    // }
+    // cout<<prev->info<<endl;
+    prev->link=slow->link; 
+
 }
 int display(struct node *first)
 {
@@ -70,6 +65,7 @@ int display(struct node *first)
             cout << trav->info << " ";
             trav = trav->link;
         }
+        cout<<trav->info;
     }
     return 0;
 }

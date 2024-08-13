@@ -3,7 +3,7 @@ using namespace std;
 const int Max_size = 10;
 int row_search(int row, int columns, int find, int num[Max_size][Max_size])
 {
-    int high, low = 0, midr;
+    int low = 0, high, midr;
     high = row - 1;
     while (low <= high)
     {

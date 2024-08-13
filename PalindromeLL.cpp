@@ -16,7 +16,7 @@ void insert(int n)
     temp->info = n;
     temp->link = NULL;
     node *trav = head;
-    if (trav == NULL)
+    if (head == NULL)
     {
         head = temp;
     }

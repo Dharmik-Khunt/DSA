@@ -120,11 +120,36 @@ void DeleteLastNode()
         free(temp);
     }
 }
+void deleteNfromEnd()
+{
+    struct node *trav = first;
+    int count = 0, n;
+    cout << "Enter the index number which you have to delete:";
+    cin >> n;
+    while (trav != NULL)
+    {
+        trav = trav->link;
+        count++;
+    }
+
+    count = count - n;
+    trav = first;
+    for (int i = 1; i < count; i++)
+    {
+
+        trav = trav->link;
+    }
+    struct node *temp;
+    temp = trav->link;
+    trav->link = temp->link;
+    delete temp;
+    cout << "Delete successfully!";
+}
 void DeleteAllNodes()
 {
     while (first != NULL)
     {
-        struct node *temp;  
+        struct node *temp;
         if (first->link == NULL)
         {
             temp = first;
@@ -230,8 +255,13 @@ int main()
         break;
         case 8:
         {
+            deleteNfromEnd();
+        }
+        break;
+        case 9:
+        {
             exit(0);
         }
         }
-    } while (choice >= 1 && choice <= 8);
+    } while (choice >= 1 && choice <= 9);
 }

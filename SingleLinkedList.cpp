@@ -210,7 +210,6 @@ int main()
 
         cout << "Enter your Choice:";
         cin >> choice;
-        //  _flushall();
         switch (choice)
         {
         case 1:

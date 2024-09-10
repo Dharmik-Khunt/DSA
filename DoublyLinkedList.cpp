@@ -86,7 +86,7 @@ void delete_all()
 
     while (head != NULL)
     {
-        head = head->lptr;
+        head = head->rptr;
         free(head);
     }
 }

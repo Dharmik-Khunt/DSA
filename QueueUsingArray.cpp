@@ -63,7 +63,7 @@ int main()
     int n;
     int n1;
     cin >> n1;
-    // cout<<" choice 1 push \n2 pop\n3 display ";
+    cout<<" choice 1 push \n2 pop\n3 display ";
     for (int i = 0; i < n1; i++)
     {
         cin >> n;

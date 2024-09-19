@@ -1,51 +1,121 @@
 #include <iostream>
-#include <stack>
-#include <sstream>
-
+#include <map>
+#include <cctype>
 using namespace std;
 
-// Function to evaluate the postfix expression
-int evaluatePostfix(string expression) {
-    stack<int> st;
-    stringstream ss(expression);
-    string token;
+class Stack
+{
+    char *arr = NULL;
+    int top;
 
-    while (ss >> token) {
-        // If the token is an operator, pop two operands from the stack
-        if (token == "+" || token == "-" || token == "*" || token == "/") {
-            int operand2 = st.top(); st.pop();
-            int operand1 = st.top(); st.pop();
-            int result;
+public:
+    Stack()
+    {
+        arr = new char[100];
+        top = -1;
+    }
 
-            // Perform the operation based on the token
-            if (token == "+") {
-                result = operand1 + operand2;
-            } else if (token == "-") {
-                result = operand1 - operand2;
-            } else if (token == "*") {
-                result = operand1 * operand2;
-            } else if (token == "/") {
-                result = operand1 / operand2;
+    void push(char n)
+    {
+        if (top >= 99)
+        {
+            return;
+        }
+        arr[++top] = n;
+    }
+
+    char pop()
+    {
+        if (top < 0)
+        {
+            return -1;
+        }
+        char val = arr[top--];
+        return val;
+    }
+
+    char peek()
+    {
+        if (top < 0)
+        {
+            return -1;
+        }
+        return arr[top];
+    }
+
+    int isEmpty()
+    {
+        if (top < 0)
+        {
+            return 1;
+        }
+        return 0;
+    }
+};
+int precedence(char ch)
+{
+
+    if (ch == '+' || ch == '-')
+    {
+        return 1;
+    }
+    else if (ch == '*' || ch == '/')
+    {
+        return 2;
+    }
+    else if (ch == '(')
+    {
+        return 4;
+    }
+}
+string convertToPostfix(const string &exp)
+{
+    string ans;
+    Stack s;
+
+    for (char elem : exp)
+    {
+        if (elem == '(')
+        {
+            s.push(elem); // a b + c d e - ^ f + * g -
+        }
+        else if (elem == ')')
+        {
+            while (!s.isEmpty() && s.peek() != '(')
+            {
+                ans += s.pop();
             }
-
-            // Push the result back onto the stack
-            st.push(result);
-        } else {
-            // If the token is a number, convert it to an integer and push it onto the stack
-            st.push(stoi(token));
+            s.pop();
+        }
+        else if (isalnum(elem))
+        {
+            ans += elem;
+        }
+        else
+        {
+            while (!s.isEmpty() && precedence(elem) <= precedence(s.peek()))
+            {
+                ans += s.pop();
+            }
+            s.push(elem);
         }
     }
 
-    // The result of the postfix expression is the last element on the stack
-    return st.top();
+    while (!s.isEmpty())
+    {
+        ans += s.pop();
+    }
+
+    return ans;
 }
 
-int main() {
-    string expression;
-    getline(cin, expression);  // Read the entire line containing the postfix expression
+int main()
+{
 
-    int result = evaluatePostfix(expression);
-    cout << result << endl;
+    string exp;
+    cin >> exp;
+
+    cout << convertToPostfix(exp);
 
     return 0;
 }

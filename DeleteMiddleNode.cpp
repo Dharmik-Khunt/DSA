@@ -32,7 +32,7 @@ void insertlast()
         trav->link = temp;
     }
 }
-int deletemiddle(struct node *first)
+int deletemiddle()
 {
     if (first == NULL && first->link == NULL)
     {
@@ -51,7 +51,7 @@ int deletemiddle(struct node *first)
     prev->link=slow->link; 
 
 }
-int display(struct node *first)
+int display()
 {
     struct node *trav = first;
     if (first == NULL)
@@ -77,7 +77,7 @@ int main()
     {
         insertlast();
     }
-    deletemiddle(first);
-    display(first);
+    deletemiddle();
+    display();
     return 0;
 }

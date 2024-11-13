@@ -3,7 +3,7 @@ using namespace std;
 struct node
 {
     int info;
-    struct node *link;
+    node *link;
 } *first = NULL;
 struct node *create(int n)
 {

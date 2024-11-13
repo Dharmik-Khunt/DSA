@@ -1,102 +1,86 @@
 #include <iostream>
+#include <sstream>
+#include <vector>
+#include <queue>
 using namespace std;
 
+// Definition for a binary tree node.
 struct TreeNode {
     int val;
     TreeNode* left;
     TreeNode* right;
-
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 };
 
-class BST {
+// Function to construct a binary tree from level-order input
+TreeNode* buildTree(const vector<string>& nodes) {
+    if (nodes.empty() || nodes[0] == "null") return nullptr;
+
+    TreeNode* root = new TreeNode(stoi(nodes[0]));
+    queue<TreeNode*> q;
+    q.push(root);
+    int i = 1;
+
+    while (!q.empty() && i < nodes.size()) {
+        TreeNode* current = q.front();
+        q.pop();
+
+        if (i < nodes.size() && nodes[i] != "null") {
+            current->left = new TreeNode(stoi(nodes[i]));
+            q.push(current->left);
+        }
+        i++;
+
+        if (i < nodes.size() && nodes[i] != "null") {
+            current->right = new TreeNode(stoi(nodes[i]));
+            q.push(current->right);
+        }
+        i++;
+    }
+
+    return root;
+}
+
+class Solution {
 public:
-    // (a) Insert a node in BST
-    TreeNode* insert(TreeNode* root, int val) {
-        if (root == nullptr) {
-            return new TreeNode(val);
-        }
-        if (val < root->val) {
-            root->left = insert(root->left, val);
-        } else {
-            root->right = insert(root->right, val);
-        }
-        return root;
-    }
-
-    // (b) Search a node in BST
-    TreeNode* search(TreeNode* root, int val) {
-        if (root == nullptr || root->val == val) {
-            return root;
-        }
-        if (val < root->val) {
-            return search(root->left, val);
-        }
-        return search(root->right, val);
-    }
-
-    // Helper function to perform an in-order traversal to find the kth smallest element
-    void inorder(TreeNode* root, int& k, int& result) {
-        if (root == nullptr) {
-            return;
-        }
-
-        // Traverse the left subtree
-        inorder(root->left, k, result);
-
-        // Decrease k, and if k == 0, we have found the kth smallest element
-        k--;
-        if (k == 0) {
-            result = root->val;
-            return;
-        }
-
-        // Traverse the right subtree
-        inorder(root->right, k, result);
-    }
-
-    // Kth smallest element in BST
     int kthSmallest(TreeNode* root, int k) {
-        int result = -1;
-        inorder(root, k, result);
-        return result;
+        vector<int> inorder;
+        inorderTraversal(root, inorder);
+        return inorder[k - 1];
+    }
+
+private:
+    void inorderTraversal(TreeNode* node, vector<int>& inorder) {
+        if (!node) return;
+        inorderTraversal(node->left, inorder);
+        inorder.push_back(node->val);
+        inorderTraversal(node->right, inorder);
     }
 };
 
-// Use case with user input
 int main() {
-    BST bst;
-    TreeNode* root = nullptr;
-    int n, value, k;
+    string input;
+    getline(cin, input);  // Read input in one line for the tree
 
-    // (a) Insert nodes into the BST (from user input)
-    cout << "Enter the number of nodes to insert into the BST: ";
-    cin >> n;
-    cout << "Enter the node values: ";
-    for (int i = 0; i < n; i++) {
-        cin >> value;
-        root = bst.insert(root, value);
+    stringstream ss(input);
+    vector<string> nodes;
+    string node;
+    
+    // Read tree values
+    while (ss >> node) {
+        nodes.push_back(node);
     }
 
-    // (b) Search for a node (from user input)
-    cout << "Enter the value to search in the BST: ";
-    cin >> value;
-    TreeNode* searchResult = bst.search(root, value);
-    if (searchResult) {
-        cout << "Node with value " << value << " found: " << searchResult->val << endl;
-    } else {
-        cout << "Node with value " << value << " not found." << endl;
-    }
+    // Build the binary search tree
+    TreeNode* root = buildTree(nodes);
 
-    // Kth smallest element (from user input)
-    cout << "Enter the value of k to find the kth smallest element in the BST: ";
+    // Input: integer k
+    int k;
     cin >> k;
-    int kthSmallestValue = bst.kthSmallest(root, k);
-    if (kthSmallestValue != -1) {
-        cout << "The " << k << "th smallest value in the BST is: " << kthSmallestValue << endl;
-    } else {
-        cout << "Kth smallest element not found." << endl;
-    }
+
+    // Compute and print the kth smallest element
+    Solution solution;
+    cout << solution.kthSmallest(root, k) << endl;
 
     return 0;
 }

@@ -47,7 +47,6 @@ int deletemiddle()
         prev = slow;
         slow = slow->link;
     }
-    // cout<<prev->info<<endl;
     prev->link=slow->link; 
 
 }

@@ -5,15 +5,21 @@ struct node
 {
     int data;
     node *link;
-};
-node *r = NULL;
-node *n = NULL;
-
-void enqueue(int data)
+}*r=NULL, *n=NULL;
+struct node *create(int n)
 {
-    node *temp = new node();
-    temp->data = data;
+    struct node *temp;
+    temp = (struct node *)malloc(sizeof(struct node));
+    temp->data= n;
     temp->link = NULL;
+}
+
+void enqueue()
+{
+    int no;
+    cout << "Enter int number:";
+    cin >> no;
+    struct node *temp = create(no);
     if (r == NULL)
     {
         r = temp;
@@ -53,7 +59,7 @@ int peek()
         return data;
     }
 }
-bool isempt()
+bool isempty()
 {
     if (n == NULL)
     {
@@ -67,19 +73,15 @@ bool isempt()
 int main()
 {
     int choice;
-    int n1;
-    cin >> n1;
-    for (int i = 0; i < n1; i++)
+    do
     {
+        cout << "1:push \n2:pop\n3:peek\n4:isempty" << endl;
         cin >> choice;
         switch (choice)
         {
         case 1:
-            int data;
-            cin >> data;
-            enqueue(data);
+            enqueue();
             break;
-
         case 2:
             cout << dequeue() << endl;
             break;
@@ -87,8 +89,7 @@ int main()
             cout << peek() << endl;
             break;
         case 4:
-            cout << isempt() << endl;
-            break;
+            cout << isempty() << endl;
         }
-    }
+    } while (choice != 4);
 }

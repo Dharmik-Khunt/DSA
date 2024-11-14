@@ -50,7 +50,7 @@ int column_search(int *num, int find, int left, int right)
 int main()
 {
     int r, c;
-    cin >> r;
+    cin >> r; 
     cin >> c;
     int a[Max_size][Max_size];
     for (int i = 0; i < r; i++)

@@ -5,6 +5,7 @@ struct node
     int info;
     struct node *link;
 } *first1 = NULL, *first2 = NULL, *first3 = NULL;
+
 struct node *create(int n)
 {
     struct node *temp;
@@ -13,6 +14,7 @@ struct node *create(int n)
     temp->link = NULL;
     return temp;
 }
+
 void InsertNodeAtLast1()
 {
     int n;
